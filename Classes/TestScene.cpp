@@ -22,6 +22,8 @@
 
 #include "TestScene.h"
 #include "AppMacros.h"
+#include "PhysicsScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -135,20 +137,28 @@ void TestScene::initUI()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
     
-    auto titleLabel = Label::createWithTTF("Tower Defense - Test Scene", "fonts/arial.ttf", 32);
+    auto titleLabel = Label::createWithTTF("Tower Defense - Main Menu", "fonts/arial.ttf", 32);
     titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 50));
     titleLabel->setColor(Color3B::YELLOW);
     this->addChild(titleLabel, 10);
     
-    _statusLabel = Label::createWithTTF("Click anywhere to add more towers!", "fonts/arial.ttf", 20);
-    _statusLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 50));
-    _statusLabel->setColor(Color3B::GREEN);
-    this->addChild(_statusLabel, 10);
+    auto physicsBtn = MenuItemFont::create("Physics World Simulation", CC_CALLBACK_1(TestScene::goToPhysicsScene, this));
+    physicsBtn->setFontSizeObj(28);
+    physicsBtn->setColor(Color3B::GREEN);
     
-    auto infoLabel = Label::createWithTTF("Green: Balanced | Orange: High Damage | Purple: Long Range", "fonts/arial.ttf", 14);
-    infoLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 80));
-    infoLabel->setColor(Color3B::WHITE);
-    this->addChild(infoLabel, 10);
+    auto gameBtn = MenuItemFont::create("Tower Defense Game", CC_CALLBACK_1(TestScene::goToGameScene, this));
+    gameBtn->setFontSizeObj(28);
+    gameBtn->setColor(Color3B::ORANGE);
+    
+    auto menu = Menu::create(physicsBtn, gameBtn, nullptr);
+    menu->alignItemsVerticallyWithPadding(30);
+    menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    this->addChild(menu, 10);
+    
+    auto hintLabel = Label::createWithTTF("Select a mode to begin!", "fonts/arial.ttf", 20);
+    hintLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 80));
+    hintLabel->setColor(Color3B::WHITE);
+    this->addChild(hintLabel, 10);
 }
 
 bool TestScene::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
@@ -210,4 +220,14 @@ void TestScene::update(float dt)
         this->addChild(enemy, 5);
         _enemies.push_back(enemy);
     }
+}
+
+void TestScene::goToPhysicsScene(Ref* sender)
+{
+    Director::getInstance()->replaceScene(TransitionFade::create(0.5f, PhysicsScene::scene()));
+}
+
+void TestScene::goToGameScene(Ref* sender)
+{
+    Director::getInstance()->replaceScene(TransitionFade::create(0.5f, GameScene::scene()));
 }

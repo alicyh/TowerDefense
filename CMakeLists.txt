@@ -56,6 +56,7 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/GameScene.h
      Classes/TestScene.h
+     Classes/PhysicsScene.h
      Classes/Enemy.h
      Classes/Tower.h
      )
@@ -63,6 +64,7 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/GameScene.cpp
      Classes/TestScene.cpp
+     Classes/PhysicsScene.cpp
      Classes/Enemy.cpp
      Classes/Tower.cpp
      )

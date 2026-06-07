@@ -50,6 +50,8 @@ private:
     void placeTestTowers();
     void initUI();
     void onTouchesBegan(const std::vector<Touch*>& touches, Event* event);
+    void goToPhysicsScene(Ref* sender);
+    void goToGameScene(Ref* sender);
 };
 
 #endif // __TEST_SCENE_H__
